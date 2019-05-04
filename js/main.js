@@ -20,6 +20,20 @@ class staffMember {
 }
 
 // taking out functions from event listiner for code readability
+
+// transform div information into a object using staffMember class
+const createStaffMemberObject = (staffMemberDiv)=>{
+    let staffMemberObject = new staffMember(
+        staffMemberDiv.children[0].innerText,
+        Number(staffMemberDiv.children[1].value),
+        Number(staffMemberDiv.children[2].value)
+    );
+
+    return staffMemberObject;
+}
+
+
+// Sort objects of staff members by their hours worked
 const sortByHoursWorked = (staffArray) => {
     staffArray.sort((member1, member2) => {
         if (member1.hoursWorked < member2.hoursWorked){
@@ -30,28 +44,28 @@ const sortByHoursWorked = (staffArray) => {
             return 0
         }
     })
-
     return staffArray
 }
+
+// create a list with best workers
 const showBestStaffMembers = (staffArray) => {
 
 }
 
 
-let staffMembersObjects = [];
+
 btn.addEventListener('click', ()=> {
-    
+    // array for keeping information on all staff members
+    let staffMembersObjects = [];
+    // eeach div of every staff member
     let staffMembers = document.querySelectorAll('div[id^="pracownik"]');
 
-    // use information in div to create a object
+    // Loop for each staff member node
     staffMembers.forEach((staffMemberDiv)=> {
-        let staffMemberObject = new staffMember(
-                staffMemberDiv.children[0].innerText,
-                Number(staffMemberDiv.children[1].value),
-                Number(staffMemberDiv.children[2].value)
-        );
+        // use information in div to create a object
+        let staffMemberObject = createStaffMemberObject(staffMemberDiv);
         
-        // set red for slackers
+        // set red if he is slacking off
         if(staffMemberObject.isSlackingOff){
             staffMemberDiv.classList.add('slacking__staff__member')
         }
@@ -63,7 +77,10 @@ btn.addEventListener('click', ()=> {
         staffMembersObjects.push(staffMemberObject);
     })
 
-    console.log(staffMembersObjects)
+    // sort the array of staff members to establish who is the best
+    sortByHoursWorked(staffMembersObjects);
+
+    console.log(staffMembersObjects);
 })
 
 
