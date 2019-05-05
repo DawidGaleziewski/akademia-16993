@@ -47,9 +47,21 @@ const sortByHoursWorked = (staffArray) => {
     return staffArray
 }
 
-// create a list with best workers
+// create DOM object with best workers
 const showBestStaffMembers = (staffArray) => {
+    let list = document.createElement("ol");
+    list.classList.add('best-staff__list');
+    let bestWorkersDiv = document.getElementById('najlepsi-pracownicy');
+    for(let i = 0; i < 3; ++i){
+        let listItem = document.createElement("li");
+        listItem.classList.add('best-staff__item')
+        let textNode = document.createTextNode(`${staffArray[i].name} is ${ (i !== 0) ? 'one of' : ''} the best with ${staffArray[i].hoursWorked} hours worked this month`);
 
+        listItem.appendChild(textNode);
+        list.appendChild(listItem);
+    }
+
+    bestWorkersDiv.appendChild(list);
 }
 
 
@@ -80,7 +92,10 @@ btn.addEventListener('click', ()=> {
     // sort the array of staff members to establish who is the best
     sortByHoursWorked(staffMembersObjects);
 
-    console.log(staffMembersObjects);
+    // append the DOM with hardest workers:
+    showBestStaffMembers(staffMembersObjects);
+
 })
+
 
 
